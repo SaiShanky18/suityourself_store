@@ -11,8 +11,7 @@ const Footer = () => (
         <div className='app__footer-links'>
             <div className='app__footer-links_contact'>
                 <h1 className='app__footer-headtext'>Contact Us</h1>
-                <p className='p__opensans'>Phone: 1 (868) 684-4129</p>
-                <p className='p__opensans' style={{ textTransform: 'lowercase' }}>
+                <p className='p__opensans hover-pointer' style={{ textTransform: 'lowercase' }}>
                     e-mail: <a href="mailto:suityourselftt@gmail.com">suityourselftt@gmail.com</a>
                 </p>
             </div>

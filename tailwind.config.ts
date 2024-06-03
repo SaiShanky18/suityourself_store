@@ -130,6 +130,10 @@ module.exports = {
         md: `calc(var(--radius) - 2px)`,
         sm: "calc(var(--radius) - 4px)",
       },
+      screens: {
+        'sml': '374px',
+        'lrg': '819px',
+      },
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },

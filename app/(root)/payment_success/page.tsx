@@ -14,7 +14,7 @@ const SuccessfulPayment = () => {
 
     return (
         <div className='h-screen flex flex-col justify-center items-center gap-5'>
-            <p className='text-heading1-bold text-red-1'>Payment Successful</p>
+            <p className='lrg:text-heading1-bold sml:text-heading2-bold text-red-1'>Payment Successful</p>
             <p>Thank you for your rental</p>
             <Link href="/" className='p-4 border text-base-bold hover:bg-black hover:text-white'>
                 CONTINUE TO SHOPPING

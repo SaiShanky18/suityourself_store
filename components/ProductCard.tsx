@@ -17,7 +17,7 @@ const ProductCard = ({ product, updateSignedInUser }: ProductCardProps) => {
     const router = useRouter();
 
     return (
-        <Link href={`/products/${product._id}`} className='w-[220px] flex flex-col gap-2'>
+        <Link href={`/products/${product._id}`} className='w-[220px] flex flex-col gap-2 sml:w-[40%]'>
             <Image src={product.media[0]} alt='product' width={250} height={300} className='h-[250px] rounded-lg object-cover' />
             <div>
                 <p className='text-base-bold'>{product.title}</p>
