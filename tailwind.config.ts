@@ -131,7 +131,7 @@ module.exports = {
         sm: "calc(var(--radius) - 4px)",
       },
       screens: {
-        'sml': '374px',
+        'sml': '359px',
         'lrg': '819px',
       },
       fontFamily: {
