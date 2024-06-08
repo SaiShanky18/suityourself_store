@@ -79,12 +79,14 @@ const Cart = () => {
                     <p className='text-small-medium'>TT$ {cartItem.totalPrice}</p>
                   </div>
                 </div>
-
+                
+                {/*
                 <div className='flex gap-4 items-center'>
                   <MinusCircle className='hover:text-red-1 cursor-pointer' onClick={() => cart.decreaseQuantity(cartItem.item._id)} />
                   <p className='text-body-bold'>{cartItem.quantity}</p>
                   <PlusCircle className='hover:text-red-1 cursor-pointer' onClick={() => cart.increaseQuantity(cartItem.item._id)} />
                 </div>
+                  */}
 
                 <Trash className="hover:text-red-1 cursor-pointer" onClick={() => cart.removeItem(cartItem.item._id)} />
               </div>
