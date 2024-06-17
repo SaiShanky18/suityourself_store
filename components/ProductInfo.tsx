@@ -173,7 +173,7 @@ const ProductInfo = ({ productInfo, productOrders }: { productInfo: ProductType,
                     Add to Cart
                 </button>
             )}
-
+            
             {cart.cartItems.length >= 1 ? (
                 <p style={{ color: 'red' }}>You can only add one item to the cart at a time. If you would like to save an item for later, please add it to your Wishlist.</p>
             ) : (

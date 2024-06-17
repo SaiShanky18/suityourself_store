@@ -46,7 +46,7 @@ async function performWiPayPayment(cartItems: any, customer: any) {
   parameters.append('method', 'credit_card');
   parameters.append('order_id', `oid_${Date.now()}`); // Example order ID
   parameters.append('origin', 'SuitYourselfTT'); // Change to your actual app name
-  parameters.append('response_url', `${process.env.ECOMMERCE_STORE_URL}/payment_result`); // Change to your actual response URL
+  parameters.append('response_url', `https://suityourselftt.vercel.app/payment_result`); // Change to your actual response URL
   parameters.append('total', totalAmount);
   parameters.append('version', '1.0.0');
   parameters.append('addr1', '');
