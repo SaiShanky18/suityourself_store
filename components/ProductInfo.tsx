@@ -76,9 +76,9 @@ const ProductInfo = ({ productInfo, productOrders }: { productInfo: ProductType,
                     endDate: dates?.to,
                     totalPrice,
                 });
-            }, 100); // 0.090 seconds delay
 
-            router.push('/cart'); // Navigate to cart page
+                router.push('/cart'); // Navigate to cart page
+            }, 0); // 0.0 seconds delay
 
         }
     };
