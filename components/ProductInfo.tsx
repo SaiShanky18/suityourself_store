@@ -61,24 +61,19 @@ const ProductInfo = ({ productInfo, productOrders }: { productInfo: ProductType,
     }, [productOrders]);
 
     const handleAddToCart = () => {
-        if (cart.cartItems.length >= 1) {
-            <p style={{ color: 'red' }}>You can only add one item to the cart at a time. Please add it to your Wishlist if you wish to save another item for later.</p>
-        } else {
 
-            cart.addItem({
-                item: productInfo,
-                quantity,
-                colour: selectedColour,
-                size: selectedSize,
-                startDate: dates?.from,
-                endDate: dates?.to,
-                totalPrice,
-            });
+        cart.addItem({
+            item: productInfo,
+            quantity,
+            colour: selectedColour,
+            size: selectedSize,
+            startDate: dates?.from,
+            endDate: dates?.to,
+            totalPrice,
+        });
 
-            router.push('/cart'); // Navigate to cart page
+        router.push('/cart'); // Navigate to cart page
 
-
-        }
     };
 
     return (
@@ -172,7 +167,7 @@ const ProductInfo = ({ productInfo, productOrders }: { productInfo: ProductType,
                 </button>
             ) : (
                 cart.cartItems.length > 0 && (
-                    <p style={{ color: 'red' }}>You can only add one item to the cart at a time. Please add it to your Wishlist if you wish to save another item for later.</p>  
+                    <p style={{ color: 'red' }}>You can only add one item to the cart at a time. Please add it to your Wishlist if you wish to save another item for later.</p>
                 )
             )}
 
