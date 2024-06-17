@@ -11,6 +11,7 @@ import { getOrders } from '@/lib/actions/actions';
 import { auth } from '@clerk/nextjs';
 import { Checkbox } from "@/components/ui/checkbox"
 import { CheckboxWithText } from './Checkbox';
+import { useRouter } from 'next/navigation';
 
 
 const ProductInfo = ({ productInfo, productOrders }: { productInfo: ProductType, productOrders: OrderType }) => {
@@ -21,8 +22,10 @@ const ProductInfo = ({ productInfo, productOrders }: { productInfo: ProductType,
     const [totalPrice, setTotalPrice] = useState(productInfo.price);
     const [periods, setPeriods] = useState(0);
     const [isChecked, setIsChecked] = useState(false);
+    const [error, setError] = useState('');
 
     const cart = useCart();
+    const router = useRouter();
 
     useEffect(() => {
         if (dates && dates.from && dates.to) {
@@ -57,6 +60,28 @@ const ProductInfo = ({ productInfo, productOrders }: { productInfo: ProductType,
         return dates;
     }, [productOrders]);
 
+    const handleAddToCart = () => {
+        if (cart.cartItems.length >= 1) {
+            setTimeout(() => {
+                <p style={{ color: 'red' }}>You can only add one item to the cart at a time. Please add it to your Wishlist if you wish to save another item for later.</p>
+            }, 1000); // 1 second delay
+        } else {
+            setTimeout(() => {
+                cart.addItem({
+                    item: productInfo,
+                    quantity,
+                    colour: selectedColour,
+                    size: selectedSize,
+                    startDate: dates?.from,
+                    endDate: dates?.to,
+                    totalPrice,
+                });
+            }, 100); // 0.090 seconds delay
+
+            router.push('/cart'); // Navigate to cart page
+
+        }
+    };
 
     return (
         <div className='max-w-[400px] flex flex-col gap-4'>
@@ -98,7 +123,7 @@ const ProductInfo = ({ productInfo, productOrders }: { productInfo: ProductType,
             {productInfo.sizes.length > 0 && (
                 <div className='flex flex-col gap-2'>
                     <p className='text-base-medium text-grey-2'>Sizes</p>
-                    <p className='text-small-medium text-grey-2'>Please refer to our <a  href="/sizing-chart.pdf" target="_blank" className="text-black-500 underline">Sizing Chart</a></p>
+                    <p className='text-small-medium text-grey-2'>Please refer to our <a href="/sizing-chart.pdf" target="_blank" className="text-black-500 underline">Sizing Chart</a></p>
                     <div className='flex gap-2'>
                         {productInfo.sizes.map((size, index) => (
                             <p key={index} className={`border border-black px-2 py-1 rounded-lg cursor-pointer ${selectedSize === size && "bg-black text-white"}`}
@@ -110,8 +135,6 @@ const ProductInfo = ({ productInfo, productOrders }: { productInfo: ProductType,
                     </div>
                 </div>
             )}
-
-
 
             {/*
             <div className='flex flex-col gap-2'>
@@ -127,10 +150,16 @@ const ProductInfo = ({ productInfo, productOrders }: { productInfo: ProductType,
             <div className='flex flex-col gap-2'>
                 <p className='text-base-medium text-grey-2'>Rental Dates</p>
                 <div className='flex gap-2'>
-                    <ReserveDates date={dates} setDate={setDates} disabledDates={disabledDates} />
+                    <ReserveDates date={dates} setDate={setDates} disabledDates={disabledDates} setError={setError} />
                 </div>
 
-                {periods > 0 && (<div>Total Price: <span>TT${totalPrice}</span> for <span>{periods} rental period/s.</span></div>)}
+                {error ? (
+                    <div style={{ color: 'red' }}>{error}</div>
+                ) : (
+                    periods > 0 && (
+                        <div>Total Price: <span>TT${totalPrice}</span> for <span>{periods} rental period/s.</span></div>
+                    )
+                )}
 
             </div>
 
@@ -139,11 +168,17 @@ const ProductInfo = ({ productInfo, productOrders }: { productInfo: ProductType,
                 <CheckboxWithText isChecked={isChecked} setIsChecked={setIsChecked} />
             </div>
 
-            {dates?.to && dates?.from && isChecked && (<button className='outline text-base-bold py-3 rounded-lg hover:bg-black hover:text-white'
-                onClick={() => { cart.addItem({ item: productInfo, quantity, colour: selectedColour, size: selectedSize, startDate: dates?.from, endDate: dates?.to, totalPrice: totalPrice }) }}
-            >
-                Add to Cart
-            </button>)}
+            {dates?.to && dates?.from && isChecked && cart.cartItems.length < 1 && (
+                <button className='outline text-base-bold py-3 rounded-lg hover:bg-black hover:text-white' onClick={handleAddToCart}>
+                    Add to Cart
+                </button>
+            )}
+
+            {cart.cartItems.length >= 1 ? (
+                <p style={{ color: 'red' }}>You can only add one item to the cart at a time. If you would like to save an item for later, please add it to your Wishlist.</p>
+            ) : (
+                <p />
+            )}
 
 
         </div>

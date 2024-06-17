@@ -26,7 +26,7 @@ const Orders = async () => {
                         <div className='flex flex-col gap-8 p-4 hover:bg-grey-1'>
                             <div className='flex gap-20 max-md:flex-col max-md:gap-3'>
                                 <p className='text-base-bold'>Order ID: {order._id}</p>
-                                <p className='text-base-bold'>Total Amount (TT$): {order.totalAmount}</p>
+                                <p className='text-base-bold'>Total Amount (US$): {order.totalAmount}</p>
                             </div>
 
                             <div className='flex flex-col gap-5'>
@@ -45,7 +45,7 @@ const Orders = async () => {
                                             {orderItem.colour && (<p className='text-small-medium'>Colour:{" "}<span className='text-small-bold'>{orderItem.colour}</span></p>)}
                                             {orderItem.size && (<p className='text-small-medium'>Size:{" "}<span className='text-small-bold'>{orderItem.size}</span></p>)}
                                             {orderItem.product && (
-                                                <p className='text-small-medium'>Unit Price:{" "}<span className='text-small-bold'>{orderItem.product.price}</span></p>
+                                                <p className='text-small-medium'>Unit Price:{" "}<span className='text-small-bold'>TT$ {orderItem.product.price}</span></p>
                                             )}
                                             {orderItem.startDate && orderItem.endDate && (
                                                 <p className='text-small-medium'>Rental Period:{" "}<span className='text-small-bold'>{format(orderItem.startDate, 'dd-MM-yyyy')} TO {format(orderItem.endDate, 'dd-MM-yyyy')} </span></p>

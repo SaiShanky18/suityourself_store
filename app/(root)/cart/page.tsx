@@ -16,10 +16,10 @@ const Cart = () => {
   const total = cart.cartItems.reduce((acc, cartItem) => acc + cartItem.totalPrice! * cartItem.quantity, 0)
   const totalRounded = parseFloat(total.toFixed(2))
 
-  const isCheckoutDisabled = true;  // Change to false when ready to enable checkout
+  const isCheckoutDisabled = false;  // Change to false when ready to enable checkout
   const noop = () => { }; // No-operation function
 
-  //api route for payment --------- currently using stripe -------------------------
+  //api route for payment --------- currently using wipay -------------------------
 
   const customer = {
     clerkId: user?.id,
@@ -33,10 +33,18 @@ const Cart = () => {
       if (!user) {
         router.push("sign-in")
       } else {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
+        const res = await fetch(`/api/wipay-checkout`, { //change to "/checkout" to use stripe instead of wipay
           method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({ cartItems: cart.cartItems, customer }),
-        })
+        });
+
+        if (!res.ok) {
+          throw new Error("Failed to create checkout session");
+        }
+
         const data = await res.json();
         window.location.href = data.url;
         console.log(data);
@@ -45,7 +53,7 @@ const Cart = () => {
       console.log("[checkout_POST", err)
     }
   }
-  //api route for payment --------- currently using stripe -------------------------
+  //api route for payment --------- currently using wipay -------------------------
 
   return (
     <div className='flex gap-20 py-16 px-10 max-lg:flex-col'>
@@ -79,7 +87,7 @@ const Cart = () => {
                     <p className='text-small-medium'>TT$ {cartItem.totalPrice}</p>
                   </div>
                 </div>
-                
+
                 {/*
                 <div className='flex gap-4 items-center'>
                   <MinusCircle className='hover:text-red-1 cursor-pointer' onClick={() => cart.decreaseQuantity(cartItem.item._id)} />
@@ -103,14 +111,26 @@ const Cart = () => {
           <span>Total Amount</span>
           <span>TT$ {totalRounded}</span>
         </div>
-        <button
-          className={`border rounded-lg text-body-bold bg-white py-3 w-full ${isCheckoutDisabled ? '' : 'hover:bg-black hover:text-white'
-            }`}
-          onClick={isCheckoutDisabled ? noop : handleCheckout}
-          disabled={isCheckoutDisabled}
-        >
-          Proceed to Checkout
-        </button>
+
+        {cart.cartItems.length > 0 ? (
+          <button
+            className={`border rounded-lg text-body-bold bg-white py-3 w-full ${isCheckoutDisabled ? '' : 'hover:bg-black hover:text-white'
+              }`}
+            onClick={isCheckoutDisabled ? noop : handleCheckout}
+            disabled={isCheckoutDisabled}
+          >
+            Proceed to Checkout
+          </button>) : (
+
+          <button
+            className={`border rounded-lg text-body-bold bg-white py-3 w-full`}
+            style={{cursor:'auto'}}
+          >
+            No Items to Checkout
+          </button>
+        )
+        }
+
         {isCheckoutDisabled && (
           <p className="text-red-500 mt-0.5">Checkout is temporarily disabled. Please visit our Instagram page for updates.</p>
         )}

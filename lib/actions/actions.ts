@@ -28,7 +28,7 @@ export const getProductOrders = async (productId: string) => {
     try {
         console.log('Product ID:', productId);
         const productOrders = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/products/${productId}`, { cache: 'no-store' });
-        console.log('This is product orderes here:', productOrders)
+        console.log('This is product orders here:', productOrders)
         
         // Check if the response is empty or not OK
         if (!productOrders.ok) {

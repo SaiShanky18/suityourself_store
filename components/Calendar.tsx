@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { addDays, addMonths, format } from "date-fns"
+import { addDays, addMonths, format, eachDayOfInterval, isSameDay } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { DateRange } from "react-day-picker"
 
@@ -14,15 +14,34 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-interface ReserveDatesProps{
+interface ReserveDatesProps {
   className?: React.HTMLAttributes<HTMLDivElement>;
   date: DateRange | undefined,
-  setDate: React.Dispatch<React.SetStateAction<DateRange | undefined>>
-  disabledDates: Date[];
+  setDate: React.Dispatch<React.SetStateAction<DateRange | undefined>>,
+  disabledDates: Date[],
+  setError: React.Dispatch<React.SetStateAction<string>>
 }
 
-const ReserveDates = ({className, date, setDate, disabledDates}: ReserveDatesProps) => {
-  
+const ReserveDates = ({ className, date, setDate, disabledDates, setError }: ReserveDatesProps) => {
+  const handleSelect = (range: DateRange | undefined) => {
+    if (!range || !range.from || !range.to) {
+      setDate(range);
+      setError('');
+      return;
+    }
+
+    const selectedDates = eachDayOfInterval({ start: range.from, end: range.to });
+    const isRangeValid = selectedDates.every(
+      (selectedDate) => !disabledDates.some((disabledDate) => isSameDay(disabledDate, selectedDate))
+    );
+
+    if (isRangeValid) {
+      setDate(range);
+      setError('');
+    } else {
+      setError('Selected range includes unavailable dates. Please select a different date range.');
+    }
+  };
 
   return (
     <div className={cn("grid gap-2", className)}>
@@ -56,12 +75,12 @@ const ReserveDates = ({className, date, setDate, disabledDates}: ReserveDatesPro
             initialFocus
             mode="range"
             defaultMonth={date?.from}
-            fromDate={addDays(Date(),2)}
-            toDate={addMonths(Date(),1)}
+            fromDate={addDays(new Date(), 2)}
+            toDate={addMonths(new Date(), 1)}
             selected={date}
-            onSelect={setDate}
+            onSelect={handleSelect}
             numberOfMonths={1}
-            disabled = {disabledDates}
+            disabled={disabledDates}
           />
         </PopoverContent>
       </Popover>
