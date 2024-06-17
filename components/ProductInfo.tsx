@@ -62,23 +62,21 @@ const ProductInfo = ({ productInfo, productOrders }: { productInfo: ProductType,
 
     const handleAddToCart = () => {
         if (cart.cartItems.length >= 1) {
-            setTimeout(() => {
-                <p style={{ color: 'red' }}>You can only add one item to the cart at a time. Please add it to your Wishlist if you wish to save another item for later.</p>
-            }, 0); // 0 second delay
+            return(<p style={{ color: 'red' }}>You can only add one item to the cart at a time. Please add it to your Wishlist if you wish to save another item for later.</p>)
         } else {
-            setTimeout(() => {
-                cart.addItem({
-                    item: productInfo,
-                    quantity,
-                    colour: selectedColour,
-                    size: selectedSize,
-                    startDate: dates?.from,
-                    endDate: dates?.to,
-                    totalPrice,
-                });
 
-                router.push('/cart'); // Navigate to cart page
-            }, 0); // 0.0 seconds delay
+            cart.addItem({
+                item: productInfo,
+                quantity,
+                colour: selectedColour,
+                size: selectedSize,
+                startDate: dates?.from,
+                endDate: dates?.to,
+                totalPrice,
+            });
+
+            router.push('/cart'); // Navigate to cart page
+
 
         }
     };
@@ -173,7 +171,7 @@ const ProductInfo = ({ productInfo, productOrders }: { productInfo: ProductType,
                     Add to Cart
                 </button>
             )}
-          
+
 
 
         </div>
