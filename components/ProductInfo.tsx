@@ -64,7 +64,7 @@ const ProductInfo = ({ productInfo, productOrders }: { productInfo: ProductType,
         if (cart.cartItems.length >= 1) {
             setTimeout(() => {
                 <p style={{ color: 'red' }}>You can only add one item to the cart at a time. Please add it to your Wishlist if you wish to save another item for later.</p>
-            }, 1000); // 1 second delay
+            }, 0); // 0 second delay
         } else {
             setTimeout(() => {
                 cart.addItem({
@@ -168,17 +168,12 @@ const ProductInfo = ({ productInfo, productOrders }: { productInfo: ProductType,
                 <CheckboxWithText isChecked={isChecked} setIsChecked={setIsChecked} />
             </div>
 
-            {dates?.to && dates?.from && isChecked && cart.cartItems.length < 1 && (
+            {dates?.to && dates?.from && isChecked && (
                 <button className='outline text-base-bold py-3 rounded-lg hover:bg-black hover:text-white' onClick={handleAddToCart}>
                     Add to Cart
                 </button>
             )}
-            
-            {cart.cartItems.length >= 1 ? (
-                <p style={{ color: 'red' }}>You can only add one item to the cart at a time. If you would like to save an item for later, please add it to your Wishlist.</p>
-            ) : (
-                <p />
-            )}
+          
 
 
         </div>
