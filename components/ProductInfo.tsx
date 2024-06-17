@@ -76,6 +76,14 @@ const ProductInfo = ({ productInfo, productOrders }: { productInfo: ProductType,
 
     };
 
+    const cartFull = () => {
+
+        cart.cartItems.length > 0 && (
+            <p style={{ color: 'red' }}>You can only add one item to the cart at a time. Please add it to your Wishlist if you wish to save another item for later.</p>
+        )
+
+    }
+
     return (
         <div className='max-w-[400px] flex flex-col gap-4'>
             <div className='flex justify-between items-center'>
@@ -166,9 +174,9 @@ const ProductInfo = ({ productInfo, productOrders }: { productInfo: ProductType,
                     Add to Cart
                 </button>
             ) : (
-                cart.cartItems.length > 0 && (
-                    <p style={{ color: 'red' }}>You can only add one item to the cart at a time. Please add it to your Wishlist if you wish to save another item for later.</p>
-                )
+                <button className='outline text-base-bold py-3 rounded-lg hover:bg-black hover:text-white' onClick={cartFull}>
+                    Add to Cart
+                </button>
             )}
 
 
